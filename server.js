@@ -36,9 +36,9 @@ const tourSchema = new mongoose.Schema({
 
 const Tour = mongoose.model('Tour', tourSchema);
 const testTour = new Tour({
-  name: 'The wild forest',
-  price: 400,
-  rating: 4.7
+  name: 'Into the wild',
+  price: 483,
+  rating: 4.9
 });
 
 testTour
