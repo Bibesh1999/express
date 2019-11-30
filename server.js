@@ -36,8 +36,8 @@ const tourSchema = new mongoose.Schema({
 
 const Tour = mongoose.model('Tour', tourSchema);
 const testTour = new Tour({
-  name: 'The Amazon',
-  price: 460
+  name: 'The Dark Forest',
+  price: 490
 });
 
 testTour
