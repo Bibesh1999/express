@@ -1,10 +1,12 @@
 const express = require('express');
-const {getAllTours,getTour,createTour,deleteTour,updateTour,checkID,checkBody} = require('./../controllers/tourController');
+const {getAllTours,getTour,createTour,deleteTour,updateTour,checkBody} = require('./../controllers/tourController');
 
 
 const router = express.Router();
 
-router.param('id', checkID);
+
+//Param here to deing parameter middleware in your applications
+//router.param('id', checkID);
 
 router
   .route('/')
