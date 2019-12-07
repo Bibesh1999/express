@@ -27,43 +27,41 @@ exports.getAllTours = async (req, res) => {
   try {
     //1.Filetering
     const queryObj = { ...req.query };
-    const excludedFields = ['page', 'sort','limit','fields'];
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach(el => delete queryObj[el]);
 
-    let query =  Tour.find(queryObj);
+    let query = Tour.find(queryObj);
 
-
-    
-  //2.Sorting
+    //2.Sorting
     if (req.query.sort) {
-      console.log(req.query)
-      const sortBy = req.query.sort.split(',').join(" ");
+      console.log(req.query);
+      const sortBy = req.query.sort.split(',').join(' ');
       query = query.sort(sortBy);
     } else {
       query = query.sort('-createdAT');
     }
     //3.Field limiting
     if (req.query.fields) {
-      const fields = req.query.fields.split(',').join(" ");
+      const fields = req.query.fields.split(',').join(' ');
       query = query.select(fields);
     } else {
-      query = query.select("-__v");
+      query = query.select('-__v');
     }
-    
-    
-    
+
+    //4. Pagination
+    const page = req.query.page * 1 || 1;
+    const limit = req.query.limit * 1 || 100;
+    const skip = (page - 1) * limit;
+
+    query = query.skip(skip).limit(limit);
+
+    if (req.query.page) {
+      const numTours = await Tour.countDocuments();
+      if (skip >= numTours) throw new Error("This page doesn't exist.");
+    }
+
     //Execute query
     const tours = await query;
-    
-    //3.Field limiting
-
-
-
-
-
-
-
-
 
     res.status(200).json({
       status: 'Success',
